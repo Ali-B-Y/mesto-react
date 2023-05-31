@@ -3,20 +3,26 @@ import {useEffect, useState} from "react";
 import Card from "./Card";
 
 function Main({onAddPlace, onEditProfile, onEditAvatar, onCardClick}) {
-    const [userName, setUserName] = useState();
-    const [userDescription, setUserDescription] = useState();
-    const [userAvatar, setUserAvatar] = useState();
+    const [userName, setUserName] = useState("");
+    const [userDescription, setUserDescription] = useState("");
+    const [userAvatar, setUserAvatar] = useState("");
     const [cards, setcards] = useState([]);
 
     useEffect(() => {
-        api.getUserInfo().then(data => {
+        api.getUserInfo()
+            .then(data => {
             setUserName(data.name);
             setUserDescription(data.about);
             setUserAvatar(data.avatar);
         })
-        api.getInitialCards().then(data => {
+            .catch(error => console.log(`Ошибка: ${error}`))
+
+        api.getInitialCards()
+            .then(data => {
             setcards(data);
         })
+            .catch(error => console.log(`Ошибка: ${error}`))
+
     }, [])
 
     return (
